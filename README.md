@@ -98,7 +98,7 @@ kita membuat tiga tombol di dalam file menu.dart dengan menambah kode di atas di
 ```
 
 -  Mengimplementasikan warna-warna yang berbeda untuk setiap tombol (Lihat Daftar Produk, Tambah Produk, dan Logout).<br><br>
-![buttoncolor](https://drive.google.com/uc?export=view&id=13sLYTkRhbp5JkbXkT2WOLAUFkB99zfp5)<br>
+![buttoncolor](https://drive.google.com/uc?export=view&id=124wnZ-zrJ_MAjPCaJHOzzKOCX_gtNUSI)<br>
 <b>Penjelasan Gambar:</b><br>
 kita memberikan warna berbeda pada tiap button. kode di atas ditambahkan di dalam
 ``` python
