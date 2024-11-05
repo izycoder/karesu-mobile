@@ -7,11 +7,11 @@
 
 #### Stateless Widget:<br>
 Ini adalah widget yang tidak memiliki status internal yang dapat berubah. Stateless widget hanya dapat menerima input melalui konstruktor, dan tampilannya tidak akan berubah berdasarkan interaksi pengguna atau variabel internal. Contoh dari stateless widget adalah widget Text dan Icon. Karena tidak memiliki state, tampilannya hanya diperbarui ketika ada perubahan dari widget induk atau struktur aplikasi yang memanggilnya​
-Berbeda dengan stateless, stateful widget memiliki status internal yang bisa berubah selama masa hidup widget tersebut. Widget ini terdiri dari dua bagian utama:
 
 #### Stateful Widget:<br>
-StatefulWidget, yang menentukan bentuk dasar widget.
-State, yang mengelola data dinamis dan bertanggung jawab atas perubahan tampilan sesuai perubahan data atau interaksi pengguna. Misalnya, widget Checkbox atau TextField menggunakan stateful widget untuk menyimpan nilai yang dapat diperbarui saat pengguna berinteraksi dengan widget tersebut​
+Berbeda dengan stateless, stateful widget memiliki status internal yang bisa berubah selama masa hidup widget tersebut. Widget ini terdiri dari dua bagian utama:<br>
+<b>StatefulWidget,</b> yang menentukan bentuk dasar widget.<br>
+<b>State,</b> yang mengelola data dinamis dan bertanggung jawab atas perubahan tampilan sesuai perubahan data atau interaksi pengguna.Misalnya, widget <code>Checkbox</code> atau <code>TextField</code> menggunakan stateful widget untuk menyimpan nilai yang dapat diperbarui saat pengguna berinteraksi dengan widget tersebut​
 
 #### Perbedaan Utama:
 
@@ -71,4 +71,94 @@ Dalam dart
 
 <b>final:</b> Juga digunakan untuk variabel yang tidak dapat diubah setelah diinisialisasi, namun nilai final ditentukan saat runtime, bukan saat kompilasi.
 
+### cara implementasi checklist
+- Membuat sebuah program Flutter baru dengan tema E-Commerce yang sesuai dengan tugas-tugas sebelumnya.<br><br>
+![fluttercreate](https://drive.google.com/uc?export=view&id=13sLYTkRhbp5JkbXkT2WOLAUFkB99zfp5)<br>
+<b>Penjelasan Gambar:</b><br>
+untuk membuat program flutter baru dengan tema E-Commerce yang sebelumnya yaitu karesu maka kita dapat menjalankan perintah <code>flutter create karesu_mobile</code> di terminal<br><br>
+- Membuat tiga tombol sederhana dengan ikon dan teks untuk: Melihat daftar produk (Lihat Daftar Produk), Menambah produk (Tambah Produk), dan Logout (Logout)<br><br>
+![flutterbutton](https://drive.google.com/uc?export=view&id=1g3eTtqI8mtV8FWHdtUqfIq4zOWebUmZd)<br>
+<b>Penjelasan Gambar:</b><br>
+kita membuat tiga tombol di dalam file menu.dart dengan menambah kode di atas di dalam 
+```python
+    ...
+
+    class MyHomePage extends StatelessWidget {
+    ...
+
+    final List<ItemHomepage> items = [
+         ItemHomepage("Lihat Daftar Produk", Icons.directions_car),
+         ItemHomepage("Tambah Produk", Icons.add),
+         ItemHomepage("Logout", Icons.logout),
+     ];
+    
+    ...
+    
+    }
+```
+
+-  Mengimplementasikan warna-warna yang berbeda untuk setiap tombol (Lihat Daftar Produk, Tambah Produk, dan Logout).<br><br>
+![buttoncolor](https://drive.google.com/uc?export=view&id=13sLYTkRhbp5JkbXkT2WOLAUFkB99zfp5)<br>
+<b>Penjelasan Gambar:</b><br>
+kita memberikan warna berbeda pada tiap button. kode di atas ditambahkan di dalam
+``` python
+...
+
+class ItemCard extends StatelessWidget {
+    ...
+
+    Color _getButtonColor(String name) {
+    switch (name) {
+      case "Lihat Daftar Produk":
+        return const Color(0xFFf05225);  // Orange
+      case "Tambah Produk":
+        return const Color(0xFFff8d21);  // Light Orange
+      case "Logout":
+        return const Color(0xFFffa652);  // Orange
+      default:
+        return Colors.blue;  // Default color
+      }
+    }
+    ...
+
+     @override
+  Widget build(BuildContext context) {
+    return Material(
+      // Menentukan warna latar belakang dari tema aplikasi.
+      color: _getButtonColor(item.name), // tambahkan ini juga
+    ...
+```
+
+-  Memunculkan Snackbar dengan tulisan:
+ "Kamu telah menekan tombol Lihat Daftar Produk" ketika tombol Lihat Daftar Produk ditekan.
+ "Kamu telah menekan tombol Tambah Produk" ketika tombol Tambah Produk ditekan.
+ "Kamu telah menekan tombol Logout" ketika tombol Logout ditekan.<br><br>
+![flutterbutton](https://drive.google.com/uc?export=view&id=1zeOXfdEqC-hZz4bnRGhhLxZnCbVLTB9_)<br>
+<b>Penjelasan Gambar:</b><br>
+kita memberikan aksi ketika di tap tombol akan mengeluarkan sebuah "snackbar" yang berbentuk pop up message bertuliskan pesan yang sesuai. kode di atas di tambahkan di dalam
+```python
+...
+class ItemCard extends StatelessWidget {
+    ...
+
+    @override
+  Widget build(BuildContext context) {
+    return Material(
+    
+     onTap: () {
+          // Menampilkan pesan SnackBar saat kartu ditekan.
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
+            );
+        },
+    ...
+
+    )
+
+    ...
+}
+```
 </details>
+
