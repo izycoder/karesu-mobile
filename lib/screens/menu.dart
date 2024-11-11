@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:karesu_mobile/widgets/left_drawer.dart';
+import 'package:karesu_mobile/widgets/product_card.dart';
 
 class MyHomePage extends StatelessWidget {
     final String npm = '2306203854'; // NPM
@@ -7,8 +9,8 @@ class MyHomePage extends StatelessWidget {
     MyHomePage({super.key});
 
     final List<ItemHomepage> items = [
-         ItemHomepage("Lihat Daftar Produk", Icons.directions_car),
-         ItemHomepage("Tambah Produk", Icons.add),
+         ItemHomepage("See Car Listing", Icons.directions_car),
+         ItemHomepage("Add Product", Icons.add),
          ItemHomepage("Logout", Icons.logout),
      ];
     
@@ -28,7 +30,9 @@ class MyHomePage extends StatelessWidget {
         ),
         // Warna latar belakang AppBar diambil dari skema warna tema aplikasi.
         backgroundColor: const Color(0xFFf05225),  // Changed to match the orange theme
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      drawer: const LeftDrawer(),
       // Body halaman dengan padding di sekelilingnya.
       body: SingleChildScrollView(
         child: Padding(
@@ -121,81 +125,6 @@ class InfoCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text(content),
           ],
-        ),
-      ),
-    );
-  }
-}
-
- class ItemHomepage {
-     final String name;
-     final IconData icon;
-
-     ItemHomepage(this.name, this.icon);
- }
-
-
-class ItemCard extends StatelessWidget {
-  // Menampilkan kartu dengan ikon dan nama.
-
-  final ItemHomepage item; 
-  
-  const ItemCard(this.item, {super.key}); 
-
-  // Helper method untuk menentukan warna berdasarkan nama item
-  Color _getButtonColor(String name) {
-    switch (name) {
-      case "Lihat Daftar Produk":
-        return const Color(0xFFf05225);  // Orange
-      case "Tambah Produk":
-        return const Color(0xFFff8d21);  // Light Orange
-      case "Logout":
-        return const Color(0xFFffa652);  // Orange
-      default:
-        return Colors.blue;  // Default color
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      // Menentukan warna latar belakang dari tema aplikasi.
-      color: _getButtonColor(item.name),
-      // Membuat sudut kartu melengkung.
-      borderRadius: BorderRadius.circular(12),
-      
-      child: InkWell(
-        // Aksi ketika kartu ditekan.
-        onTap: () {
-          // Menampilkan pesan SnackBar saat kartu ditekan.
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
-            );
-        },
-        // Container untuk menyimpan Icon dan Text
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              // Menyusun ikon dan teks di tengah kartu.
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

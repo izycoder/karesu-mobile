@@ -1,6 +1,6 @@
 ![header](https://drive.google.com/uc?export=view&id=1hF-WTVj7ckmoIEr7YM-ATnasUb2OdN3t) 
 
-<details tugas2>
+<details tugas7>
   <summary><b style="font-size:25px;">📕 TUGAS 7 - Elemen Dasar Flutter</b></summary>
 
 ### Jelaskan apa yang dimaksud dengan stateless widget dan stateful widget, dan jelaskan perbedaan dari keduanya.
@@ -156,9 +156,153 @@ class ItemCard extends StatelessWidget {
     ...
 
     )
-
+  }
     ...
 }
 ```
+</details>
+
+<details tugas8>
+  <summary><b style="font-size:25px;">📕 TUGAS 8 - Flutter Navigation, Layouts, Forms, and Input Elements</b></summary>
+
+### Apa kegunaan const di Flutter? Jelaskan apa keuntungan ketika menggunakan const pada kode Flutter. Kapan sebaiknya kita menggunakan const, dan kapan sebaiknya tidak digunakan?
+
+Penggunaan <code>const</code> pada kode Flutter bertujuan untuk meningkatkan efisiensi performa aplikasi. <code>const</code> digunakan untuk mendeklarasikan objek yang tidak berubah sepanjang waktu, sehingga hanya perlu dibuat sekali. Dengan <code>const</code>, Flutter dapat mengoptimalkan widget dan tidak perlu membangun ulang elemen UI setiap kali layar berubah, sehingga menghemat memori dan meningkatkan efisiensi waktu render. Penggunaan <code>const</code> ideal pada widget yang statis, seperti teks atau ikon yang tidak berubah. Sebaiknya tidak digunakan pada widget yang dinamis atau berisi data yang akan diubah secara berkala.
+
+### Jelaskan dan bandingkan penggunaan Column dan Row pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!
+
+- **Column:** Layout widget yang menyusun anak-anaknya secara vertikal. Cocok digunakan saat menumpuk elemen UI dalam satu kolom, misalnya pada formulir pendaftaran.
+
+- **Row:** Menyusun anak-anaknya secara horizontal. Biasanya digunakan untuk elemen-elemen yang berbaris, seperti tombol navigasi di bagian atas atau bawah halaman.
+
+Contoh Implementasi:
+``` Python
+Column(
+  children: [
+    Text('Header'),
+    Text('Subheader'),
+    ElevatedButton(onPressed: () {}, child: Text('Click Me')),
+  ],
+);
+
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceAround,
+  children: [
+    Icon(Icons.home),
+    Icon(Icons.settings),
+    Icon(Icons.account_circle),
+  ],
+);
+
+```
+### Sebutkan apa saja elemen input yang kamu gunakan pada halaman form yang kamu buat pada tugas kali ini. Apakah terdapat elemen input Flutter lain yang tidak kamu gunakan pada tugas ini? Jelaskan!
+
+Elemen input yang digunakan dalam form:
+
+1. **TextFormField**
+   - Digunakan untuk input nama produk
+   - Digunakan untuk input harga produk
+   - Digunakan untuk input deskripsi produk
+   - Memiliki validasi untuk memastikan field tidak kosong
+   - Menggunakan controller untuk mengelola input
+
+2. **ElevatedButton**
+   - Tombol "Save" untuk menyimpan data form
+   - Memicu validasi form dan proses penyimpanan data
+
+Elemen input Flutter lain yang tidak digunakan:
+
+1. **Checkbox** - Untuk input boolean/pilihan ya/tidak
+2. **Radio** - Untuk memilih satu opsi dari beberapa pilihan
+3. **Slider** - Untuk memilih nilai dalam rentang tertentu
+4. **Switch** - Toggle on/off
+5. **DropdownButton** - Untuk memilih dari daftar opsi yang tersedia
+6. **DateTimePicker** - Untuk memilih tanggal dan waktu
+7. **ImagePicker** - Untuk memilih gambar dari galeri/kamera
+8. **ColorPicker** - Untuk memilih warna
+9. **RangeSlider** - Untuk memilih rentang nilai
+10. **TextField dengan InputDecoration.prefix/suffix** - TextField dengan ikon atau widget tambahan di awal/akhir
+
+Elemen-elemen ini tidak digunakan karena form yang dibuat masih sederhana dan hanya membutuhkan input teks dasar. Namun, elemen-elemen tersebut dapat sangat berguna untuk form yang lebih kompleks dengan berbagai jenis input yang berbeda.
+
+### Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+
+Dalam Flutter, tema dapat diatur melalui ThemeData di MaterialApp untuk mencapai konsistensi desain di seluruh aplikasi. Berikut cara yang saya implementasikan untuk mengatur tema:
+
+1. **Konfigurasi Tema Global**
+```dart
+MaterialApp(
+  theme: ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFf05225)),
+    useMaterial3: true,
+  ),
+  // ... kode lainnya
+)
+```
+
+2. **Implementasi Tema**
+Saya mengimplementasikan tema dengan menggunakan warna branding Karesu (oranye) sebagai warna utama:
+- Primary color: `Color(0xFFf05225)` (Oranye)
+- Secondary colors: 
+  - `Color(0xFFff8d21)` (Light Orange)
+  - `Color(0xFFffa652)` (Orange)
+
+3. **Penggunaan Tema**
+Tema diterapkan secara konsisten pada:
+- AppBar
+- Tombol-tombol navigasi
+- Card widgets
+- Form elements
+
+4. **Keuntungan Penggunaan Tema**
+- Konsistensi visual di seluruh aplikasi
+- Kemudahan dalam maintenance
+- Mendukung dark/light mode (jika diimplementasikan)
+- Perubahan tema dapat dilakukan secara terpusat
+
+Dengan menggunakan sistem tema, perubahan desain dapat dilakukan secara efisien dan konsisten di seluruh aplikasi tanpa perlu mengubah setiap widget secara individual.
+
+### Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
+
+Dalam aplikasi ini, saya menerapkan beberapa teknik navigasi Flutter untuk mengelola perpindahan antar halaman:
+
+
+**Navigator Push/Pop**
+- Untuk navigasi ke halaman baru:
+```dart
+// Navigasi ke halaman form
+Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+        builder: (context) => const ShopFormPage(),
+    ),
+);
+```
+- Untuk kembali ke halaman sebelumnya:
+```dart
+// Kembali ke halaman utama
+Navigator.pop(context);
+```
+
+**Drawer Navigation**
+Menggunakan widget Drawer untuk navigasi menu samping:
+```dart
+Drawer(
+  child: ListView(
+    children: [
+      const DrawerHeader(...),
+      ListTile(
+        leading: const Icon(...),
+        title: const Text('Halaman Utama'),
+        onTap: () {
+          Navigator.pushReplacement(...);
+        },
+      ),
+      // Item drawer lainnya
+    ],
+  ),
+);
+```
+
 </details>
 
