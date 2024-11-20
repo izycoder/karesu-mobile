@@ -306,4 +306,198 @@ Drawer(
 
 </details>
 
+<details tugas8>
+  <summary><b style="font-size:25px;">📕 Tugas 9 - Integrasi Layanan Web Django dengan Aplikasi Flutter</b></summary>
+
+ ### Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
+ Model diperlukan dalam pengambilan dan pengiriman data JSON karena:
+
+ 1. **Struktur Data yang Terorganisir**
+   - Model memberikan struktur yang jelas untuk data
+   - Memudahkan validasi data
+   - Memastikan konsistensi tipe data
+
+ 2. **Type Safety**
+   - Dart adalah bahasa yang type-safe
+   - Model membantu mendeteksi kesalahan pada compile time
+   - Mengurangi runtime errors
+
+ 3. **Kemudahan Penggunaan**
+   - Konversi otomatis antara JSON dan objek Dart
+   - Akses properti yang lebih mudah dan aman
+   - Auto-completion dalam IDE
+
+ Jika tidak menggunakan model:
+ - Tidak akan selalu error, tapi berisiko tinggi
+ - Data harus diakses sebagai Map<String, dynamic>
+ - Tidak ada validasi tipe data
+ - Lebih sulit untuk maintain code
+ - Rentan terhadap runtime errors
+
+ ### Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+ **Fungsi CookieRequest:**
+ 1. **Manajemen Session**
+   - Menyimpan dan mengelola cookie session
+   - Mempertahankan status login pengguna
+   - Mengatur autentikasi antar request
+
+ 2. **HTTP Requests**
+   - Menangani komunikasi dengan backend Django
+   - Menyertakan cookie dalam setiap request
+   - Memproses response dari server
+
+ **Mengapa Perlu Dibagikan:**
+ 1. **Konsistensi State**
+   - Memastikan status login konsisten di seluruh aplikasi
+   - Menghindari multiple login sessions
+
+ 2. **Efisiensi**
+   - Menghindari pembuatan instance berulang
+   - Menghemat memori
+   - Single source of truth untuk state autentikasi
+
+ 3. **Kemudahan Maintenance**
+   - Perubahan pada login state tercermin di semua komponen
+   - Memudahkan debugging
+   - Kode lebih terorganisir
+
+ ### Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+
+ 1. **Input Data**
+   - User mengisi form di Flutter
+   - Data divalidasi menggunakan form validation
+   - Data disimpan dalam variabel state
+
+ 2. **Pengiriman ke Server**
+   ```dart
+   final response = await request.postJson(
+     "http://127.0.0.1:8000/create-flutter/",
+     jsonEncode(<String, String>{
+       'name': _productName,
+       'description': _description,
+       'price': _price.toString(),
+     }),
+   );
+   ```
+
+ 3. **Pemrosesan di Server Django**
+   - Data diterima oleh view Django
+   - Validasi server-side
+   - Data disimpan ke database
+
+ 4. **Response ke Flutter**
+   - Server mengirim response JSON
+   - Flutter memproses response
+   - Menampilkan feedback ke user (SnackBar)
+
+ 5. **Menampilkan Data**
+   - Data diambil menggunakan GET request
+   - Dikonversi ke model ProductEntry
+   - Ditampilkan menggunakan ListView.builder
+
+ ### Jelaskan mekanisme autentikasi dari login, register, hingga logout.
+
+ 1. **Register**
+   - User mengisi form register
+   - Data dikirim ke Django endpoint `/auth/register/`
+   - Django memvalidasi dan membuat user baru
+   - Response success/failure dikirim ke Flutter
+   - User diarahkan ke login page
+
+ 2. **Login**
+   - User mengisi username dan password
+   - Data dikirim ke `/auth/login/`
+   - Django memvalidasi credentials
+   - Jika valid:
+     - Session cookie dibuat
+     - User diarahkan ke homepage
+   - Jika invalid:
+     - Error message ditampilkan
+
+ 3. **Logout**
+   - User menekan tombol logout
+   - Request ke `/auth/logout/`
+   - Django menghapus session
+   - User diarahkan ke login page
+
+ ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step!
+
+ 1. **Implementasi Fitur Registrasi**
+   - Membuat file `register.dart` dalam folder `screens`
+   - Membuat form registrasi dengan fields:
+     - Username
+     - Password
+     - Konfirmasi Password
+   - Menambahkan validasi input
+   - Mengintegrasikan dengan endpoint Django `/auth/register/`
+
+ 2. **Implementasi Login Page**
+   - Membuat file `login.dart` dalam folder `screens`
+   - Membuat form login dengan fields:
+     - Username
+     - Password
+   - Menambahkan error handling untuk kredensial invalid
+   - Menyimpan session menggunakan CookieRequest
+   - Mengarahkan ke homepage setelah login sukses
+
+ 3. **Integrasi Autentikasi Django-Flutter**
+   - Menambahkan package `provider` dan `pbp_django_auth`
+   - Membuat instance CookieRequest di `main.dart`:
+   ```dart
+   Provider(
+     create: (_) {
+       CookieRequest request = CookieRequest();
+       return request;
+     },
+     child: MaterialApp(...)
+   )
+   ```
+   - Mengimplementasikan logout handler
+
+ 4. **Pembuatan Model Kustom**
+   - Membuat model `ProductEntry` sesuai dengan model Django
+   - Menambahkan fields:
+     - name
+     - price
+     - description
+     - user
+   - Implementasi metode fromJson dan toJson
+
+ 5. **Implementasi Halaman Daftar Item**
+   - Membuat `list_productentry.dart`
+   - Menggunakan FutureBuilder untuk fetch data
+   - Menampilkan item dalam format card dengan:
+     - Nama produk
+     - Harga
+     - Deskripsi
+   - Menambahkan loading indicator
+
+ 6. **Implementasi Halaman Detail Item**
+   - Membuat halaman detail produk
+   - Menampilkan informasi lengkap produk
+   - Menambahkan tombol kembali ke daftar
+   - Styling menggunakan tema aplikasi
+
+ 7. **Implementasi Filter User**
+   - Memodifikasi endpoint Django untuk filter by user
+   - Menyesuaikan fetch data di Flutter
+   - Menampilkan hanya item milik user yang login
+   - Menambahkan handling untuk data kosong
+
+ 8. **Penyempurnaan UI/UX**
+   - Menerapkan tema konsisten (warna oranye)
+   - Menambahkan loading states
+   - Implementasi error handling
+   - Menambahkan feedback visual (SnackBar)
+
+ 9. **Testing dan Debugging**
+   - Memastikan alur autentikasi berfungsi
+   - Mengecek filter data berjalan dengan benar
+   - Memverifikasi navigasi antar halaman
+   - Memperbaiki bug yang ditemukan
+
+</details>
+
 ### Fariz Muhammad Rayhansyah Ramadhan - 2306203854
