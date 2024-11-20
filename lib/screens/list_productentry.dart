@@ -3,6 +3,7 @@ import 'package:karesu_mobile/models/product_entry.dart';
 import 'package:karesu_mobile/widgets/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:karesu_mobile/screens/product_detail.dart';
 
 class ProductEntryPage extends StatefulWidget {
   const ProductEntryPage({super.key});
@@ -60,30 +61,42 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) => Card(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${snapshot.data![index].fields.name}",
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailPage(
+                            product: snapshot.data![index],
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        Text("Description: ${snapshot.data![index].fields.description}"),
-                        const SizedBox(height: 10),
-                        Text(
-                          "Price: Rp${snapshot.data![index].fields.price}",
-                          style: const TextStyle(
-                            color: Color(0xFFf05225),
-                            fontWeight: FontWeight.bold,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${snapshot.data![index].fields.name}",
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 10),
+                          Text("Description: ${snapshot.data![index].fields.description}"),
+                          const SizedBox(height: 10),
+                          Text(
+                            "Price: Rp${snapshot.data![index].fields.price}",
+                            style: const TextStyle(
+                              color: Color(0xFFf05225),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
